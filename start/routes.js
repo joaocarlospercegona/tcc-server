@@ -19,3 +19,13 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.group(() => {
+	Route.post('login', 'AuthController.login')
+	Route.post('refresh', 'AuthController.refresh')
+	Route.post('logout', 'AuthController.logout')
+	Route.get('remember', 'AuthController.remember')
+	Route.post('forgot', 'AuthController.forgot')
+	Route.post('checkToken', 'AuthController.checkToken')
+	Route.post('reset', 'AuthController.reset')
+}).prefix('auth')

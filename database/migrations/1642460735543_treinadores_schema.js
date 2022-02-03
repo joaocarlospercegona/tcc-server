@@ -7,6 +7,9 @@ class TreinadoresSchema extends Schema {
   up () {
     this.create('treinadores', (table) => {
       table.increments()
+      table.integer('user_id').unsigned().index()
+      table.foreign('user_id').references('id').inTable('users').onDelete('cascade')
+      table.string('cref')
       table.timestamps()
     })
   }

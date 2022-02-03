@@ -4,6 +4,10 @@
 const Model = use('Model')
 
 class Treinador extends Model {
+
+    static get table () {
+        return 'treinadores'
+    }
 }
 
 module.exports = Treinador
