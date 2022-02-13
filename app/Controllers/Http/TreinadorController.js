@@ -21,6 +21,7 @@ class TreinadorController {
     async store({ params, request, response }) {
         try {
             let dado = request.all()
+            console.log('opa', dado)
             let senhaUsuario = dado.password ? dado.password : await getStringRandom(10)
             let user = await User.create({
                 nome: dado.nome,

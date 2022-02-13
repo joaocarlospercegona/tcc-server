@@ -21,13 +21,13 @@ Route.get('/', () => {
 })
 
 Route.group(() => {
-	Route.post('login', 'AuthController.login').middleware(["auth"])
+	Route.post('login', 'AuthController.login')
 }).prefix('auth')
 
 Route.group(() => {
 	//Treinador
 		Route.get('perfil-treinador', 'TreinadorController.show').middleware(["auth"])
-		Route.post('criar-treinador', 'TreinadorController.store')
+		Route.post('criarTreinador', 'TreinadorController.store')
 		Route.put('alterar-perfil-treinador', 'TreinadorController.update').middleware(["auth"])
 	//Fim Treinador
 

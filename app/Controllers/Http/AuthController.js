@@ -5,6 +5,7 @@ const Token = use('App/Models/Token')
 class AuthController {
       async login({ request, response, auth }) {
         const { email, password } = request.all()
+        console.log('email', email, 'senha', password)
         let u = await Usuario.query().where('email',email).first()
         if (!u) return response.status(400).send({error: {message: 'Login errado!'}})
         let rs = {usuario:u.toJSON()}
