@@ -22,6 +22,7 @@ class CriarEquipeSeeder {
       let equipe = new Equipe()
       equipe.treinador_id = treinador.id
       equipe.nome = 'Equipe Teste'
+      equipe.codigo = 'codigo'
       await equipe.save()
     }
   }

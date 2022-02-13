@@ -10,6 +10,7 @@ class EquipesSchema extends Schema {
       table.string('nome')
       table.integer('treinador_id').unsigned().index()
       table.foreign('treinador_id').references('id').inTable('treinadores').onDelete('cascade')
+      table.string('codigo').notNullable()
       table.timestamps()
     })
   }

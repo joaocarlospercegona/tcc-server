@@ -5,6 +5,7 @@ const { first } = require("@adonisjs/lucid/src/Lucid/Model")
 const Role = use('Role')
 const User = use('App/Models/User')
 const Equipe = use('App/Models/Equipe')
+const EquipeRequisicao = use('App/Models/EquipeRequisicao')
 const { getStringRandom } = use('App/Helpers')
 const Env = use('Env')
 
@@ -68,6 +69,9 @@ class EquipeController {
 		} catch (error) {
 			return response.status(400).send({ error: { message: 'Erro ao atualizar a equipe solicitado!', e: error.toString() } })
 		}
+    }
+    async buscarAtletas({params, request, response, auth}){
+        
     }
 }
 
