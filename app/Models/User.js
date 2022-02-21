@@ -37,6 +37,15 @@ class User extends Model {
   static get hidden() {
     return ['password']
   }
+
+  atleta () {
+    return this.belongsTo('App/Models/Atleta')
+  }
+
+  treinador () {
+    return this.belongsTo('App/Models/Treinador')
+  }
+
   static get traits () {
     return [
       '@provider:Adonis/Acl/HasRole',

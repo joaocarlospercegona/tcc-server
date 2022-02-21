@@ -24,9 +24,15 @@ class EquipeController {
     async store({ params, request, response }) {
         try {
             let dado = request.all()
+            let codin = ''
+            for(let c = 0; c < 7; c++){
+                let value = Math.floor(Math.random() * 10)
+                codin += value
+            }
             let equipe = await Equipe.create({
                 nome: dado.nome,
-                treinador_id: dado.treinador_id
+                treinador_id: dado.treinador_id,
+                codigo: codin
             })
             if(equipe){
                 return equipe ? equipe : response.status(400).send({ error: { message: 'Erro ao criar a equipe!' } })
@@ -55,7 +61,7 @@ class EquipeController {
 			})
         }
     }
-    async update({ params, request, response, auth }) {
+    async alterarDadosEquipe({ params, request, response, auth }) {
         try {
 			let query = Equipe.query().where('id', params.id)
 			let equipe = await query.first()
@@ -71,7 +77,8 @@ class EquipeController {
 		}
     }
     async buscarAtletas({params, request, response, auth}){
-        
+        let query = EquipeRequisicao.query().where('status','Aceito').where('equipe_id', params.equipe)
+        return await query.fetch()
     }
 }
 

@@ -26,28 +26,29 @@ Route.group(() => {
 
 Route.group(() => {
 	//Treinador
-		Route.get('perfil-treinador', 'TreinadorController.show').middleware(["auth"])
-		Route.post('criarTreinador', 'TreinadorController.store')
-		Route.put('alterar-perfil-treinador', 'TreinadorController.update').middleware(["auth"])
+		Route.get('perfil-treinador', 'TreinadorController.show')//.middleware(["auth"])
+		Route.post('criarTreinador', 'TreinadorController.store') 
+		Route.put('alterar-perfil-treinador', 'TreinadorController.update')//.middleware(["auth"])
 	//Fim Treinador
 
 	//Atleta
-		Route.get('perfil-atleta', 'AtletaController.show').middleware(["auth"])
-		Route.post('criarAtleta', 'AtletaController.store')
-		Route.put('alterar-perfil-atleta', 'AtletaController.update').middleware(["auth"])
+		Route.get('perfilAtleta/:id', 'AtletaController.perfilAtleta')//.middleware(["auth"]) OK - falta fazer a relacao com modalidades
+		Route.post('criarAtleta', 'AtletaController.store') // OK
+		Route.put('alterar-perfil-atleta', 'AtletaController.update')//.middleware(["auth"]) 
+		Route.put('relacionarAtletaModalidade/:id', 'AtletaController.relacionarModalidade') // OK
 	//Fim ATLETA
 
 	//Equipe
-		Route.post('criar-equipe/:treinador', 'EquipeController.post').middleware(["auth"])
-		Route.put('alterar-dados-equipe/:id', 'EquipeController.update').middleware(["auth"])
-		Route.get('buscar-atletas-equipe/:id', 'EquipeController.buscarAtletas').middleware(["auth"])
+		Route.post('criarEquipe', 'EquipeController.store')//.middleware(["auth"]) OK
+		Route.put('alterar-dados-equipe/:id', 'EquipeController.alterarDadosEquipe')//.middleware(["auth"]) OK
+		Route.get('buscar-atletas-equipe/:equipe', 'EquipeController.buscarAtletas')//.middleware(["auth"]) OK
 	//FIM EQUIPE
 
-	//REQUISICAO EQUIPE
-		Route.get('buscar-requisicoes-pendentes-equipe/:equipe', 'EquipeRequisicaoController.buscarRequisicoesPendentes').middleware(["auth"])
-		Route.put('alterar-status-requisicao/:id', 'EquipeRequisicaoController.alterarStatus').middleware(["auth"])
-		Route.delete('remover-atleta-equipe/:atleta/:equipe', 'EquipeRequisicaoController.removerAtletaEquipe').middleware(["auth"])
-		Route.post('criar-requisicao-equipe/:atleta/:codigo_equipe', 'EquipeRequisicaoController.criar-requisicao').middleware(["auth"])
+	//REQUISICAO EQUIPE -- OK
+		Route.get('buscar-requisicoes-pendentes-equipe/:equipe', 'EquipeRequisicaoController.buscarRequisicoesPendentes')//.middleware(["auth"])
+		Route.put('alteraStatusRequisicao/:id', 'EquipeRequisicaoController.alterarStatus')//.middleware(["auth"])
+		Route.delete('remover-atleta-equipe/:atleta/:equipe', 'EquipeRequisicaoController.removerAtletaEquipe')//.middleware(["auth"])
+		Route.post('criar-requisicao-equipe', 'EquipeRequisicaoController.criarRequisicao')
 	//FIM REQUISICAO
 
 

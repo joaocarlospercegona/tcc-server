@@ -5,6 +5,7 @@ const { first } = require("@adonisjs/lucid/src/Lucid/Model")
 const Role = use('Role')
 const User = use('App/Models/User')
 const Atleta = use('App/Models/Atleta')
+const AtletaModalidade = use('App/Models/AtletaModalidade')
 const { getStringRandom } = use('App/Helpers')
 const Env = use('Env')
 
@@ -14,9 +15,9 @@ class AtletaController {
         let query = Atleta.query()
         return await query.fetch()
     }
-    async show({ request, response, auth, params }) {
+    async perfilAtleta({ request, response, auth, params }) {
         let dado = params
-        let query = Atleta.query().where('id', dado.id)
+        let query = Atleta.query().with('user').where('id', dado.id)
 		let atleta = await query.first()
 		return atleta ? atleta : response.status(400).send({ error: { message: 'Erro ao mostrar o item solicitado!' } })
     }
@@ -87,6 +88,28 @@ class AtletaController {
 			return response.status(400).send({ error: { message: 'Erro ao atualizar o atleta solicitado!', e: error.toString() } })
 		}
     }
+    async relacionarModalidade({ params, request, response, auth }) {
+        try {
+			let query = Atleta.query().where('id', params.id)
+			let atleta = await query.first()
+			if (atleta) {
+                let dados = request.all()
+                
+                await AtletaModalidade.query().delete()
+                for(let modalidade of dados.modalidades){
+                    let am = new AtletaModalidade()
+                    am.atleta_id = atleta.id,
+                    am.modalide_id = modalidade
+                    await am.save()
+                }
+			}
+			
+			return atleta ? atleta : response.status(400).send({ error: { message: 'Erro ao atualizar o atleta solicitado!' } })
+		} catch (error) {
+			return response.status(400).send({ error: { message: 'Erro ao atualizar o atleta solicitado!', e: error.toString() } })
+		}
+    }
+    
 }
 
 module.exports = AtletaController
