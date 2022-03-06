@@ -2,6 +2,8 @@
 const Env = use('Env')
 const Usuario = use('App/Models/User')
 const Token = use('App/Models/Token')
+const Atleta = use('App/Models/Atleta')
+const Treinador = use('App/Models/Treinador')
 class AuthController {
       async login({ request, response, auth }) {
         const { email, password } = request.all()
@@ -78,6 +80,38 @@ class AuthController {
         }
         catch (error) {
           return response.status(400).send({error: {message: 'Não foi possivel alterar a sua senha!', e: error.toString()}})
+        }
+      }
+
+      async register({ request, response }){
+        try {
+          let dado = request.all()
+          let senhaUsuario = dado.password ? dado.password : await getStringRandom(10)
+          let user = await User.create({
+              nome: dado.nome,
+              email: dado.email,
+              cpf: dado.cpf,
+              data_nascimento: dado.nascimento,
+              password: dado.senha
+          })
+          if(user){
+              if(dado.tipo_usuario == 'treinador'){
+                let treinador = await Treinador.create({
+                  user_id: user.id,
+                  cref: dado.cref,
+                })
+                return treinador ? treinador : response.status(400).send({ error: { message: 'Erro ao criar o treinador!' } })
+              }else{
+                let atleta = await Atleta.create({
+                    user_id: user.id,
+                    peso: dado.peso,
+                    altura: dado.altura
+                })
+                return atleta ? atleta : response.status(400).send({ error: { message: 'Erro ao criar Atleta!' } })
+              }
+          }
+        }catch (error){
+            return response.status(400).send({ error: { message: 'Erro ao criar Usuário!', e: error.toString() } })
         }
       }
 }

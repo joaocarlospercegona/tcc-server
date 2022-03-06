@@ -22,18 +22,19 @@ Route.get('/', () => {
 
 Route.group(() => {
 	Route.post('login', 'AuthController.login')
+	Route.post('register', 'AuthController.register')
 }).prefix('auth')
 
 Route.group(() => {
 	//Treinador
 		Route.get('perfil-treinador', 'TreinadorController.show')//.middleware(["auth"])
-		Route.post('criarTreinador', 'TreinadorController.store') 
+		//Route.post('criarTreinador', 'TreinadorController.store') 
 		Route.put('alterar-perfil-treinador', 'TreinadorController.update')//.middleware(["auth"])
 	//Fim Treinador
 
 	//Atleta
 		Route.get('perfilAtleta/:id', 'AtletaController.perfilAtleta')//.middleware(["auth"]) OK - falta fazer a relacao com modalidades
-		Route.post('criarAtleta', 'AtletaController.store') // OK
+		//Route.post('criarAtleta', 'AtletaController.store') // OK
 		Route.put('alterar-perfil-atleta', 'AtletaController.update')//.middleware(["auth"]) 
 		Route.put('relacionarAtletaModalidade/:id', 'AtletaController.relacionarModalidade') // OK
 	//Fim ATLETA
