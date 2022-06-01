@@ -2,15 +2,20 @@
 const Env = use('Env')
 const Usuario = use('App/Models/User')
 const Token = use('App/Models/Token')
+const Role = use('Role')
 const Atleta = use('App/Models/Atleta')
 const Treinador = use('App/Models/Treinador')
+const { getStringRandom } = use('App/Helpers')
 class AuthController {
       async login({ request, response, auth }) {
         const { email, password } = request.all()
-        console.log('email', email, 'senha', password)
-        let u = await Usuario.query().where('email',email).with('treinador').with('atleta').first()
+        let u = await Usuario.query().where('email',email).with('treinador.equipe').with('atleta.RequisicaoEquipe.equipe').first()
         if (!u) return response.status(400).send({error: {message: 'Login errado!'}})
-        let rs = {usuario:u.toJSON()}
+        u = u.toJSON()
+        if(!u.treinador) delete u.treinador
+        if(!u.atleta) delete u.atleta
+        let rs = {usuario:u}
+       
         try {
           rs.login = await auth.withRefreshToken().attempt(email,password)
         }
@@ -87,7 +92,7 @@ class AuthController {
         try {
           let dado = request.all()
           let senhaUsuario = dado.password ? dado.password : await getStringRandom(10)
-          let user = await User.create({
+          let user = await Usuario.create({
               nome: dado.nome,
               email: dado.email,
               cpf: dado.cpf,
@@ -100,6 +105,16 @@ class AuthController {
                   user_id: user.id,
                   cref: dado.cref,
                 })
+                
+                let role
+                role = await Role.findBy('slug', 'treinador')
+                if (role) {
+                  await user.roles().detach()
+                  await user.roles().attach(role.id, (row) => {
+                    row.created_at = new Date()
+                    row.updated_at = new Date()
+                  })
+                }
                 return treinador ? treinador : response.status(400).send({ error: { message: 'Erro ao criar o treinador!' } })
               }else{
                 let atleta = await Atleta.create({
@@ -107,6 +122,16 @@ class AuthController {
                     peso: dado.peso,
                     altura: dado.altura
                 })
+
+                let role
+                role = await Role.findBy('slug', 'atleta')
+                if (role) {
+                  await user.roles().detach()
+                  await user.roles().attach(role.id, (row) => {
+                    row.created_at = new Date()
+                    row.updated_at = new Date()
+                  })
+                }
                 return atleta ? atleta : response.status(400).send({ error: { message: 'Erro ao criar Atleta!' } })
               }
           }

@@ -35,6 +35,7 @@ class TreinadorController {
                     user_id: user.id,
                     cref: dado.cref,
                 })
+                
                 return treinador ? treinador : response.status(400).send({ error: { message: 'Erro ao criar o treinador!' } })
             }
         }catch (error){

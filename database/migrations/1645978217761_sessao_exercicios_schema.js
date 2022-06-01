@@ -5,12 +5,13 @@ const Schema = use('Schema')
 
 class SessaoCamposSchema extends Schema {
   up () {
-    this.create('sessao_campos', (table) => {
+    this.create('sessao_exercicios', (table) => {
       table.increments()
-      table.integer('campo_id').unsigned().index()
-      table.foreign('campo_id').references('id').inTable('campos').onDelete('cascade')
+      table.string('exercicio_nome')
       table.integer('sessao_id').unsigned().index()
       table.foreign('sessao_id').references('id').inTable('sessoes').onDelete('cascade')
+      table.integer('ordem')
+      table.text('descricao')
       table.timestamps()
     })
   }

@@ -35,6 +35,8 @@ class EquipeController {
                 codigo: codin
             })
             if(equipe){
+                equipe = await Equipe.query().where('id', equipe.id).with('treinador').first()
+                
                 return equipe ? equipe : response.status(400).send({ error: { message: 'Erro ao criar a equipe!' } })
             }
         }catch (error){

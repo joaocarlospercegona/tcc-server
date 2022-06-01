@@ -7,6 +7,10 @@ class Atleta extends Model {
     user() {
 		return this.belongsTo('App/Models/User')
 	}
+
+	RequisicaoEquipe () {
+        return this.belongsTo('App/Models/EquipeRequisicao', 'id', 'atleta_id')
+      }
 }
 
 module.exports = Atleta

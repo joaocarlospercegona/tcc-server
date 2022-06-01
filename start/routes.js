@@ -54,17 +54,10 @@ Route.group(() => {
 
 
 	//CONSTRUINDO SESSAO TREINO
-		//TREINO
-			//CAMPOS
-				Route.get('campos-sessao-treino/:sessao', 'TreinoController.buscaCampos').middleware(["auth"])
-				Route.post('criar-campo-sessao/:sessao', 'TreinoController.criarCampo').middleware(["auth"])
-			//FIM CAMPOS
-
 			//SESSAO
 				Route.get('buscar-sessoes-treino/:treino', 'TreinoController.buscarSessoes').middleware(["auth"])
 				Route.post('criar-sessao-treino/:treino', 'TreinoController.criarSessao').middleware(["auth"])
 			//FIM SESSAO
-		//FIM TREINO
 	//FIM CONTRUINDO SESSAO TREINO
 
 }).prefix('api')

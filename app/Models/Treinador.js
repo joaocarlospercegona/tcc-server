@@ -8,6 +8,10 @@ class Treinador extends Model {
     static get table () {
         return 'treinadores'
     }
+
+    equipe () {
+        return this.belongsTo('App/Models/Equipe', 'id', 'treinador_id')
+      }
 }
 
 module.exports = Treinador

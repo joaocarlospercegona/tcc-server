@@ -11,6 +11,8 @@ class TreinoSessoesSchema extends Schema {
       table.foreign('treino_id').references('id').inTable('treinos').onDelete('cascade')
       table.integer('sessao_id').unsigned().index()
       table.foreign('sessao_id').references('id').inTable('sessoes').onDelete('cascade')
+      table.boolean('sessao_concluida').default(false)
+      table.integer('ordem')
       table.timestamps()
     })
   }

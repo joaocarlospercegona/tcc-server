@@ -7,6 +7,10 @@ class EquipeRequisicao extends Model {
     static get table () {
         return 'equipe_requisicoes'
     }
+
+    equipe () {
+        return this.belongsTo('App/Models/Equipe', 'equipe_id', 'id')
+      }
 }
 
 module.exports = EquipeRequisicao
