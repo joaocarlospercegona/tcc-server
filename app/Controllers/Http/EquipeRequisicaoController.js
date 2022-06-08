@@ -19,7 +19,10 @@ class EquipeRequisicaoController {
             let dado = request.all()
             let equipe = await Equipe.query().where('codigo', dado.codigo).first()
             if(equipe){
-                console.log('dado', dado)
+                let requisicao_existente = await EquipeRequisicao.query().where('atleta_id', dado.atleta).where('equipe_id', equipe.id).first()
+                if(requisicao_existente)
+                    return response.status(400).send({ error: { message: 'Você já solicitou ingresso nesta Equipe, aguarde o retorno do seu treinador!' } })
+
                 let requisicao = await EquipeRequisicao.create({
                     atleta_id: dado.atleta,
                     equipe_id: equipe.id,
@@ -31,7 +34,6 @@ class EquipeRequisicaoController {
                 return 'Código de equipe informado inválido!'
             }
             return requisicao ? requisicao : response.status(400).send({ error: { message: 'Erro ao criar requisição!' } })
-            
     }
     async removerAtletaEquipe({ request, response, params }) {
         try {
@@ -70,6 +72,26 @@ class EquipeRequisicaoController {
     async buscarRequisicoesPendentes({params, request, response, auth}){
         let query = EquipeRequisicao.query().where('status', 'Pendente').where('equipe_id', params.equipe)
         return await query.fetch()
+    }
+    async deletarRequisicaoEquipe({request, response, params}){
+        try {
+            let requisicao = await EquipeRequisicao.query().where('id', params.id).first()
+            if(requisicao){
+                await requisicao.delete()
+            }
+            return requisicao
+				? requisicao
+				: response.status(400).send({
+						error: { message: 'Erro ao deletar a requisição solicitada!' }
+				  })
+        } catch (error) {
+            return response.status(400).send({
+				error: {
+					message: 'Erro ao deletar a requisição solicitada!',
+					e: error.toString()
+				}
+			})
+        }
     }
 }
 
