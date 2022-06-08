@@ -14,6 +14,25 @@ class AuthController {
         u = u.toJSON()
         if(!u.treinador) delete u.treinador
         if(!u.atleta) delete u.atleta
+        if(u.atleta){
+          if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Aceito'){
+            u.status = 'atleta_com_time'
+          }else if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Pendente'){
+            u.status = 'atleta_com_time_pendente'
+          }else{
+            u.status = 'atleta_sem_time'
+          }
+          if(u.atleta.RequisicaoEquipe)
+            delete u.atleta.RequisicaoEquipe
+        }
+        if(u.treinador){
+          if(u.treinador.equipe){
+            u.status = 'treinador_com_equipe'
+            delete u.treinador.equipe
+          }else{
+            u.status = 'treinador_sem_equipe'
+          }
+        }
         let rs = {usuario:u}
        
         try {

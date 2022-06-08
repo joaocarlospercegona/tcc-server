@@ -10,7 +10,11 @@ class Equipe extends Model {
 
     treinador () {
         return this.belongsTo('App/Models/Treinador')
-      }
+    }
+
+    atletas_aprovados () {
+        return this.hasMany('App/Models/EquipeRequisicao')
+    }
 
 }
 

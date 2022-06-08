@@ -16,10 +16,18 @@ class EquipeController {
         return await query.fetch()
     }
     async show({ request, response, auth, params }) {
-        let dado = params
-        let query = Equipe.query().where('id', dado.id)
-		let equipe = await query.first()
-		return equipe ? equipe : response.status(400).send({ error: { message: 'Erro ao mostrar o item solicitado!' } })
+        try {
+            let dado = params
+            let query = Equipe.query().where('id', dado.id).with('atletas_aprovados', (builder) => {
+                builder.where('status', 'Aceito')
+            }).with('atletas_aprovados.atleta')
+            let equipe = await query.first()
+            console.log('equipe', equipe)
+            return equipe ? equipe : response.status(400).send({ error: { message: 'Erro ao mostrar o item solicitado!' } })
+        }catch (error){
+            console.log('error', error)
+            return response.status(400).send({ error: { message: 'Erro ao criar a equipe!', e: error.toString() } })
+        }
     }
     async store({ params, request, response }) {
         try {

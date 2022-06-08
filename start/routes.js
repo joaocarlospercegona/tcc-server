@@ -40,6 +40,7 @@ Route.group(() => {
 	//Fim ATLETA
 
 	//Equipe
+		Route.get('buscarEquipe/:id', 'EquipeController.show')
 		Route.post('criarEquipe', 'EquipeController.store')//.middleware(["auth"]) OK
 		Route.put('alterar-dados-equipe/:id', 'EquipeController.alterarDadosEquipe')//.middleware(["auth"]) OK
 		Route.get('buscar-atletas-equipe/:equipe', 'EquipeController.buscarAtletas')//.middleware(["auth"]) OK

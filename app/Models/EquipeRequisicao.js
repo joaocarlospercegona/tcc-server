@@ -10,7 +10,12 @@ class EquipeRequisicao extends Model {
 
     equipe () {
         return this.belongsTo('App/Models/Equipe', 'equipe_id', 'id')
-      }
+    }
+
+    atleta () {
+        return this.belongsTo('App/Models/Atleta')
+    }
+    
 }
 
 module.exports = EquipeRequisicao
