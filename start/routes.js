@@ -57,6 +57,7 @@ Route.group(() => {
 
 	Route.get('buscar-equipes', 'EquipeController.index')//.middleware(["auth"])
 
+	Route.get('verificar-email', 'UserController.verificarEmail')//.middleware(["auth"])
 
 	//CONSTRUINDO SESSAO TREINO
 			//SESSAO
