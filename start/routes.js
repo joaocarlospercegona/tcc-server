@@ -56,7 +56,6 @@ Route.group(() => {
 	//FIM REQUISICAO
 
 	Route.get('buscar-equipes', 'EquipeController.index')//.middleware(["auth"])
-
 	Route.get('verificar-email', 'UserController.verificarEmail')//.middleware(["auth"])
 
 	//CONSTRUINDO SESSAO TREINO

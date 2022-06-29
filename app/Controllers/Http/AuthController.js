@@ -22,13 +22,16 @@ class AuthController {
           }else{
             u.status = 'atleta_sem_time'
           }
+          if(u.status == 'atleta_com_time')
+            u.atleta.equipe = u.atleta.RequisicaoEquipe.equipe
+
           if(u.atleta.RequisicaoEquipe)
             delete u.atleta.RequisicaoEquipe
         }
         if(u.treinador){
           if(u.treinador.equipe){
             u.status = 'treinador_com_equipe'
-            delete u.treinador.equipe
+           // delete u.treinador.equipe
           }else{
             u.status = 'treinador_sem_equipe'
           }
