@@ -55,11 +55,13 @@ Route.group(() => {
 		Route.post('criar-requisicao-equipe', 'EquipeRequisicaoController.criarRequisicao')
 	//FIM REQUISICAO
 
+	Route.get('buscar-equipes', 'EquipeController.index')//.middleware(["auth"])
+
 
 	//CONSTRUINDO SESSAO TREINO
 			//SESSAO
-				Route.get('buscar-sessoes-treino/:treino', 'TreinoController.buscarSessoes').middleware(["auth"])
-				Route.post('criar-sessao-treino/:treino', 'TreinoController.criarSessao').middleware(["auth"])
+				Route.get('buscar-sessoes-treino/:treino', 'TreinoController.buscarSessoes')//.middleware(["auth"])
+				Route.post('criar-sessao-treino/:treino', 'TreinoController.criarSessao')//.middleware(["auth"])
 			//FIM SESSAO
 	//FIM CONTRUINDO SESSAO TREINO
 
