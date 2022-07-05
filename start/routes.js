@@ -33,7 +33,7 @@ Route.group(() => {
 	//Fim Treinador
 
 	//Usuario
-		Route.get('verficarDadosUsuario/:id', 'UserController.verficarDadosUsuario')
+		Route.get('verficarDadosUsuario', 'UserController.verficarDadosUsuario')
 	//
 
 	//Atleta

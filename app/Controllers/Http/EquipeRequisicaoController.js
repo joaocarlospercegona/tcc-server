@@ -70,8 +70,22 @@ class EquipeRequisicaoController {
 		}
     }
     async buscarRequisicoesPendentes({params, request, response, auth}){
-        let query = EquipeRequisicao.query().where('status', 'Pendente').with('atleta.user').where('equipe_id', params.equipe)
-        return await query.fetch()
+        let requisicoes = (await EquipeRequisicao.query().where('status', 'Pendente').with('atleta.user').where('equipe_id', params.equipe).fetch()).rows
+        let retorno = []
+        if(requisicoes){
+            for(let req of requisicoes){
+                req = req.toJSON()
+                let obj = {
+                    nome: req.atleta.user.nome,
+                    id: req.atleta.id
+                }
+                delete req.atleta
+                req.atleta = obj
+                retorno.push(req)
+            }
+            
+        }
+        return  retorno
     }
     async deletarRequisicaoEquipe({request, response, params}){
         try {
