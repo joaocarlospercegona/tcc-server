@@ -70,7 +70,7 @@ class EquipeRequisicaoController {
 		}
     }
     async buscarRequisicoesPendentes({params, request, response, auth}){
-        let query = EquipeRequisicao.query().where('status', 'Pendente').with('atleta').where('equipe_id', params.equipe)
+        let query = EquipeRequisicao.query().where('status', 'Pendente').with('atleta.user').where('equipe_id', params.equipe)
         return await query.fetch()
     }
     async deletarRequisicaoEquipe({request, response, params}){

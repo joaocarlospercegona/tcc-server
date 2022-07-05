@@ -32,6 +32,10 @@ Route.group(() => {
 		Route.put('alterar-perfil-treinador', 'TreinadorController.update')//.middleware(["auth"])
 	//Fim Treinador
 
+	//Usuario
+		Route.get('verficarDadosUsuario/:id', 'UserController.verficarDadosUsuario')
+	//
+
 	//Atleta
 		Route.get('perfilAtleta/:id', 'AtletaController.perfilAtleta')//.middleware(["auth"]) OK - falta fazer a relacao com modalidades
 		//Route.post('criarAtleta', 'AtletaController.store') // OK
