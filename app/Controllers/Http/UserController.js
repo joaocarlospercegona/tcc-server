@@ -7,9 +7,9 @@ class UserController {
         const dados = request.all()
         let usuario = await User.query().where('email', dados.email).first()
         if(usuario){
-            return response.status(400)
+            return response.status(400).send()
         }else{
-            return response.status(200)
+            return response.status(200).send()
         }
     } 
 
