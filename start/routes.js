@@ -34,6 +34,7 @@ Route.group(() => {
 
 	//Usuario
 		Route.get('verficarDadosUsuario', 'UserController.verficarDadosUsuario')
+		Route.put('alterarDadosUsuario/:id', 'UserController.alterarDadosUsuario')
 	//
 
 	//Atleta

@@ -12,7 +12,6 @@ class UserController {
             return response.status(200).send()
         }
     } 
-
     async verficarDadosUsuario({request, response}) {
         try {
             let dado = request.all()
@@ -45,6 +44,40 @@ class UserController {
                 console.log('u', u)
                 return u ? u : response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
             }
+        } catch (error) {
+            return response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
+        }
+    }
+    async alterarDadosUsuario({request, response, params}){
+        try {
+            let dado = request.all()
+            let user = await User.query().where('id', params.id).first()
+            if(user){
+                user.nome = dado.nome
+                user.email = dado.email
+                user.cpf = dado.cpf
+                user.data_nascimento = dado.data_nascimento
+                await user.save()
+                if(dado.tipo_usuario == 'Atleta'){
+                    let atleta = await Atleta.query().where('user_id', user.id).first()
+                    if(atleta){
+                        atleta.peso = dado.peso
+                        atleta.altura = dado.altura
+                        await atleta.save()
+                        atleta = atleta.toJSON()
+                        user.atleta = {...atleta}
+                    }else if(dado.tipo_usuario == 'Treinador'){
+                        let treinador = await Treinador.query().where('user_id', user.id).first()
+                        if(treinador){
+                            treinador.cref = dado.cref
+                            await treinador.save()
+                            treinador = treinador.toJSON()
+                            user.treinador = {...treinador}
+                        }
+                    }
+                }
+            }
+            return user ? user : response.status(400).send({ error: { message: 'Erro ao atualizar dados do usuario!'} })
         } catch (error) {
             return response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
         }
