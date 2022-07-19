@@ -85,8 +85,21 @@ class EquipeController {
 		}
     }
     async buscarAtletas({params, request, response, auth}){
-        let query = EquipeRequisicao.query().where('status','Aceito').where('equipe_id', params.equipe)
-        return await query.fetch()
+        let requisicoes = (await EquipeRequisicao.query().with('atleta.user').where('status','Aceito').where('equipe_id', params.equipe).fetch()).rows
+        let retorno = []
+        if(requisicoes){
+            for(let req of requisicoes){
+                req = req.toJSON()
+                let obj = {
+                    nome: req.atleta.user.nome,
+                    id: req.atleta.id
+                }
+                delete req.atleta
+                req.atleta = obj
+                retorno.push(req)
+            }
+        }
+        return retorno
     }
 }
 
