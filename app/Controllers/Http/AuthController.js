@@ -24,9 +24,12 @@ class AuthController {
           }
           if(u.status == 'atleta_com_time')
             u.atleta.equipe = u.atleta.RequisicaoEquipe.equipe
-
+          
           if(u.atleta.RequisicaoEquipe)
             delete u.atleta.RequisicaoEquipe
+
+            u.atleta.peso = parseFloat(u.atleta.peso)
+            u.atleta.altura = parseFloat(u.atleta.altura)
         }
         if(u.treinador){
           if(u.treinador.equipe){
