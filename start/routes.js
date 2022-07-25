@@ -33,6 +33,7 @@ Route.group(() => {
 	//Fim Treinador
 
 	//Usuario
+		Route.put('alterarSenha', 'UserController.alterarSenha')
 		Route.get('verficarDadosUsuario', 'UserController.verficarDadosUsuario')
 		Route.put('alterarDadosUsuario/:id', 'UserController.alterarDadosUsuario')
 	//

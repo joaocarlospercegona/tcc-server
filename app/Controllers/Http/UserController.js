@@ -82,6 +82,19 @@ class UserController {
             return response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
         }
     }
+    async alterarSenha({request, response, params}){
+        try {
+            let dado = request.all()
+            let u = await User.query().where('id', dado.user_id).first()
+            if(u){ 
+                u.password = dado.password
+                await u.save()
+            }
+            return u ? u : response.status(400).send({ error: { message: 'Erro ao alterar senha do usuário!', e: error.toString() } })
+        } catch (error) {
+            return response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
+        }
+    }
 }
 
 module.exports = UserController
