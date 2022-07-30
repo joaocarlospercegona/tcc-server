@@ -60,7 +60,7 @@ Route.group(() => {
 		Route.delete('remover-atleta-equipe/:atleta/:equipe', 'EquipeRequisicaoController.removerAtletaEquipe')//.middleware(["auth"])
 		Route.post('criar-requisicao-equipe', 'EquipeRequisicaoController.criarRequisicao')
 
-		Route.get("verficicaStatusEquipe/:", "EquipeRequisicaoController.verificarPendencia")
+		Route.get("verficicaStatusEquipe/:id", "EquipeRequisicaoController.verificarPendencia")
 	//FIM REQUISICAO
 
 	Route.get('buscar-equipes', 'EquipeController.index')//.middleware(["auth"])

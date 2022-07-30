@@ -107,6 +107,22 @@ class EquipeRequisicaoController {
 			})
         }
     }
+
+    async verificarPendencia({request, response, params}){
+        try {
+            let requisicao = await EquipeRequisicao.query().where('id', params.id).first()
+            return requisicao ? requisicao : response.status(400).send({
+                    error: { message: 'Erro ao buscar a requisição solicitada!' }
+            })
+        } catch (error) {
+            return response.status(400).send({
+				error: {
+					message: 'Erro ao buscar a requisição solicitada!',
+					e: error.toString()
+				}
+			})
+        }
+    }
 }
 
 module.exports = EquipeRequisicaoController

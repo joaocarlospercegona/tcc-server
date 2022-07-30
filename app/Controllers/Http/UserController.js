@@ -73,7 +73,6 @@ class UserController {
                         user.atleta.altura = parseFloat(user.atleta.altura)
                     }
                 }else if(dado.tipo_usuario == 'Treinador'){
-                    console.log('ola', user.id)
                     let treinador = await Treinador.query().where('user_id', user.id).first()
                     if(treinador){
                         treinador.cref = dado.cref
