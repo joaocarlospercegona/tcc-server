@@ -21,18 +21,22 @@ class UserController {
                 if(!u.treinador) delete u.treinador
                 if(!u.atleta) delete u.atleta
                 if(u.atleta){
-                if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Aceito'){
-                    u.status = 'atleta_com_time'
-                }else if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Pendente'){
-                    u.status = 'atleta_com_time_pendente'
-                }else{
-                    u.status = 'atleta_sem_time'
-                }
-                if(u.status == 'atleta_com_time')
-                    u.atleta.equipe = u.atleta.RequisicaoEquipe.equipe
+                    if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Aceito'){
+                        u.status = 'atleta_com_time'
+                    }else if(u.atleta.RequisicaoEquipe && u.atleta.RequisicaoEquipe.status == 'Pendente'){
+                        u.status = 'atleta_com_time_pendente'
+                    }else{
+                        u.status = 'atleta_sem_time'
+                    }
+                    if(u.status == 'atleta_com_time')
+                        u.atleta.equipe = u.atleta.RequisicaoEquipe.equipe
 
-                if(u.atleta.RequisicaoEquipe)
-                    delete u.atleta.RequisicaoEquipe
+                    if(u.atleta.RequisicaoEquipe)
+                        delete u.atleta.RequisicaoEquipe
+
+                        u.atleta.peso = parseFloat(u.atleta.peso)
+                        u.atleta.altura = parseFloat(u.atleta.altura)
+
                 }
                 if(u.treinador){
                     if(u.treinador.equipe){
@@ -41,7 +45,6 @@ class UserController {
                         u.status = 'treinador_sem_equipe'
                     }
                 }
-                console.log('u', u)
                 return u ? u : response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
             }
         } catch (error) {
@@ -66,14 +69,17 @@ class UserController {
                         await atleta.save()
                         atleta = atleta.toJSON()
                         user.atleta = {...atleta}
-                    }else if(dado.tipo_usuario == 'Treinador'){
-                        let treinador = await Treinador.query().where('user_id', user.id).first()
-                        if(treinador){
-                            treinador.cref = dado.cref
-                            await treinador.save()
-                            treinador = treinador.toJSON()
-                            user.treinador = {...treinador}
-                        }
+                        user.atleta.peso = parseFloat(user.atleta.peso)
+                        user.atleta.altura = parseFloat(user.atleta.altura)
+                    }
+                }else if(dado.tipo_usuario == 'Treinador'){
+                    console.log('ola', user.id)
+                    let treinador = await Treinador.query().where('user_id', user.id).first()
+                    if(treinador){
+                        treinador.cref = dado.cref
+                        await treinador.save()
+                        treinador = treinador.toJSON()
+                        user.treinador = {...treinador}
                     }
                 }
             }
