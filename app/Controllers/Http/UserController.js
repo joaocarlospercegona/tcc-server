@@ -2,6 +2,7 @@
 const User = use('App/Models/User')
 const Atleta = use('App/Models/Atleta')
 const Treinador = use('App/Models/Treinador')
+const Hash = use('Hash')
 class UserController {
     async verificarEmail({ request, response }) {
         const dados = request.all()
@@ -92,10 +93,15 @@ class UserController {
             let dado = request.all()
             let u = await User.query().where('id', dado.user_id).first()
             if(u){ 
-                u.password = dado.password
-                await u.save()
+                let verified = await Hash.verify(dado.oldPassword, u.password);
+                if(verified){
+                    u.password = dado.newPassword
+                    await u.save()
+                    return u;
+                }
+                response.status(400).send({ error: { message: 'Erro ao validar senha usuário', e: error.toString() } }) 
             }
-            return u ? u : response.status(400).send({ error: { message: 'Erro ao alterar senha do usuário!', e: error.toString() } })
+            response.status(400).send({ eroror: { message: 'Erro ao alterar senha do usuário!', e: error.toString() } })
         } catch (error) {
             return response.status(400).send({ error: { message: 'Erro ao buscar os Dados!', e: error.toString() } })
         }
